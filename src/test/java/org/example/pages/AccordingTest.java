@@ -1,21 +1,16 @@
-package org.example.pageObjects;
+package org.example.pages;
 
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.hamcrest.MatcherAssert;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(Parameterized.class)
-public class AccordingTest {
-    private WebDriver webDriver;
+public class AccordingTest extends PageTest{
+    private final String PAGE_URL = "https://qa-scooter.praktikum-services.ru/";
     private final String listText;
     private final String text;
 
@@ -38,16 +33,9 @@ public class AccordingTest {
         };
     }
 
-
-    @Before
-    public void setUp() {
-        WebDriverManager.chromedriver().setup();
-    }
-
     @Test
     public void whenListThenTextSuccess() {
-        webDriver = new ChromeDriver();
-        webDriver.get("https://qa-scooter.praktikum-services.ru/");
+        webDriver.get(PAGE_URL);
         MainPage mainPage = new MainPage(webDriver);
 
         mainPage.clickCookieButtonAccept();
@@ -56,10 +44,4 @@ public class AccordingTest {
         MatcherAssert.assertThat(actualText, is(text));
     }
 
-    @After
-    public void tearDown(){
-        if (webDriver != null) {
-            webDriver.quit();
-        }
-    }
 }
